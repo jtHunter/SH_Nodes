@@ -31,3 +31,7 @@
 # Debug files
 *.dSYM/
 *.su
+
+# LOCAL FILES
+WLAN_CONF.cpp
+WLAN_CONF.h
