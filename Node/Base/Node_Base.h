@@ -3,7 +3,7 @@
 class Node_Base {
  
  public:
-
+ 
  void init();
 
  void startNodeBeforeWSInit();
