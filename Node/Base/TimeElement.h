@@ -119,6 +119,7 @@ unsigned long TimeElement::passedTime() {
 		passed = _passedTime - _endTime;
 		passed = complete - passed;
 	}
+	return passed;
 }
 
 int TimeElement::passedRatio(){

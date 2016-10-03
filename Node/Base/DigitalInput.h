@@ -1,7 +1,13 @@
 #include "TimeElement.h"
+#include "Constants.h"
 
 class DigitalInput {
 public:
+	
+	DigitalInput(int id,
+				 int parentId,
+				 int port);
+	
 	DigitalInput(int id,
 				 int parentId,
 				 int port,
@@ -11,10 +17,10 @@ public:
 	void tick(unsigned long passedTime);
 	void setInputValueFromHardware(bool value);
 	
-/*ToDo*/	bool currentValue();
-/*ToDo*/	bool currentValueTime();
-/*ToDo*/	bool lastValue();
-/*ToDo*/	bool lastValueTime();
+	bool currentValue();
+	unsigned long currentValueDuration();
+	bool lastValue();
+	unsigned long lastValueDuration();
 	
 private:
 	int _id;
@@ -32,7 +38,14 @@ private:
 	TimeElement* _currentValueTimer;
 };
 
-
+void DigitalInput::DigitalInput(String name,
+								int id,
+								int parentId,
+								int port,
+								bool reverse,
+								unsigned long debounceTimeMillis){
+	DigitalInput(name,id,parentId,port, false, DEBOUNCE_DI_STD_MILLIS);
+}
 
 
 void DigitalInput::DigitalInput(String name,
@@ -61,8 +74,6 @@ void DigitalInput::setInputValueFromHardware(bool value) {
 	_lastHardwareValue = _currentHardwareValue;
 	_currentHardwareValue = value;
 	
-	
-	
 	if (_currentHardwareValue != _currentValue) {
 		// input from Hardware is different to currentValue
 		if (_currentHardwareValue != _lastHardwareValue) {
@@ -85,4 +96,25 @@ void DigitalInput::setInputValueFromHardware(bool value) {
 		// input equals hardware so no debounce needed
 		_debounceTimer.pause();
 	}
-}
+};
+
+//***************************
+// Getter / Setter
+//***************************
+
+
+bool DigitalInput::currentValue(){
+	return _currentValue;
+};
+
+unsigned long DigitalInput::currentValueDuration(){
+	_currentValueTimer->passedTime
+};
+
+bool DigitalInput::lastValue(){
+	return _lastValue;
+};
+
+unsigned long DigitalInput::lastValueDuration() {
+	return _lastValueDuration;
+};
