@@ -74,14 +74,17 @@ void DigitalInput::tick(unsigned long passedTime) {
 }
 
 void DigitalInput::setInputValueFromHardware(bool value) {
+	Serial.print("DigitalInput::setInputValueFromHardware INIT\n");
 	_lastHardwareValue = _currentHardwareValue;
 	_currentHardwareValue = value;
-	
+	Serial.print("DigitalInput::setInputValueFromHardware 01 \n");
 	if (_currentHardwareValue != _currentValue) {
 		// input from Hardware is different to currentValue
 		if (_currentHardwareValue != _lastHardwareValue) {
 			// reset debounceTimer
+      Serial.print("DigitalInput::setInputValueFromHardware 02 \n");
 			_debounceTimer->reset();
+      Serial.print("DigitalInput::setInputValueFromHardware 03 \n");
 		} else {
 			// seemes to be stable signal so check if debounceTimer is finished
 			if(_debounceTimer->isFinished()) {
@@ -91,6 +94,8 @@ void DigitalInput::setInputValueFromHardware(bool value) {
 				_lastValueDuration = _currentValueTimer->passedTime();
 				_currentValue = _currentHardwareValue;
 				_currentValueTimer->reset();
+        Serial.print(_name);
+        Serial.print(_currentValue);
 			} else {
 				// nothing to do here; still wait for next loop's setting hardwareValue
 			}
