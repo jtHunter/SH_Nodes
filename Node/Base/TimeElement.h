@@ -1,18 +1,17 @@
-#include Constants.h
+#include "Constants.h"
 
 class TimeElement {
+
 public:
 	TimeElement();
-	
 	TimeElement(unsigned long endTime);
-	
 	TimeElement(unsigned long startTime,
 				unsigned long endTime,
-				TimeElement::Mode mode
+				bool decremental
 				);
 	
 	
-	void tick();
+	void tick(unsigned long passedTime);
 	
 	bool isFinished();
 	
@@ -22,42 +21,34 @@ public:
 	
 	void pause();
 	
-	void continue();
+	void unpause();
 	
 	void reset();
-	
-	
-	
-	enum static Mode {
-		INCREMENTAL, // time increases on every Tick
-		DECREMENTAL  // time decreases on every Tick
-	};
 	
 private:
 	unsigned long _startTime;
 	unsigned long _endTime;
 	unsigned long _passedTime;
 	bool _isPaused;
-	TimeElement::Mode _mode;
+	bool _decremental;
 	
 	
 };
-void TimeElement::TimeElement() {
-	TimeElement(0ul, UNSIGNED_LONG_MAX, INCREMENTAL);
+TimeElement::TimeElement() {
+	TimeElement(0ul, UNSIGNED_LONG_MAX, false);
 }
 
-void TimeElement::TimeElement(unsigned long endTime) {
-	TimeElement(0ul, endTime, INCREMENTAL);
+TimeElement::TimeElement(unsigned long endTime) {
+	TimeElement(0ul, endTime, false);
 }
 
-void TimeElement::TimeElement(unsigned long startTime,
+TimeElement::TimeElement(unsigned long startTime,
 							  unsigned long endTime,
-							  TimeElement::Mode mode){
-	_initTime = initTime;
+							    bool decremental){
 	_startTime = startTime;
-	_mode = mode;
-	_passedTime = _initTime;
+	_passedTime = _startTime;
 	_isPaused = false;
+  _decremental = decremental;
 }
 
 
@@ -68,9 +59,9 @@ void TimeElement::tick(unsigned long passedTime){
 	//TODO: gather loopDoration time
 	unsigned long loopDurationTime = passedTime;
 	
-	if (_mode == INCREMENTAL) {
+	if (!_decremental) {
 		
-		var newPassedTime = _passedTime+=loopDurationTime;
+		unsigned long newPassedTime = _passedTime+=loopDurationTime;
 		if (newPassedTime >= _passedTime) {
 			// set _passedTime
 			_passedTime = newPassedTime;
@@ -80,8 +71,8 @@ void TimeElement::tick(unsigned long passedTime){
 		}
 	}
 	
-	if (_mode == DECREMENTAL) {
-		var newPassedTime = _passedTime-=loopDurationTime;
+	if (!_decremental) {
+		unsigned long newPassedTime = _passedTime-=loopDurationTime;
 		if (newPassedTime <= _passedTime) {
 			// set _passedTime
 			_passedTime = newPassedTime;
@@ -93,13 +84,13 @@ void TimeElement::tick(unsigned long passedTime){
 }
 
 bool TimeElement::isFinished(){
-	if (_mode == INCREMENTAL) {
+	if (!_decremental) {
 		if (_passedTime >= _endTime) {
 			return true;
 		}
 	}
 	
-	if (_mode == DECREMENTAL) {
+	if (_decremental) {
 		if (_passedTime <= _endTime) {
 			return true;
 		}
@@ -110,12 +101,12 @@ bool TimeElement::isFinished(){
 
 unsigned long TimeElement::passedTime() {
 	unsigned long passed = 0;
-	if (_mode == INCREMENTAL) {
+	if (!_decremental) {
 		passed = _passedTime - _startTime;
 	}
 	
-	if (_mode == DECREMENTAL) {
-		complete = _startTime - _endTime;
+	if (_decremental) {
+		unsigned long complete = _startTime - _endTime;
 		passed = _passedTime - _endTime;
 		passed = complete - passed;
 	}
@@ -123,15 +114,15 @@ unsigned long TimeElement::passedTime() {
 }
 
 int TimeElement::passedRatio(){
-	unsigned long complete = 100
+	unsigned long complete = 100;
 	unsigned long passed = 0;
 	
-	if (_mode == INCREMENTAL) {
+	if (!_decremental) {
 		complete = _endTime - _startTime;
 		passed = _passedTime - _startTime;
 	}
 	
-	if (_mode == DECREMENTAL) {
+	if (_decremental) {
 		complete = _startTime - _endTime;
 		passed = _passedTime - _endTime;
 		passed = complete - passed;
@@ -147,7 +138,7 @@ int TimeElement::passedRatio(){
 }
 
 void TimeElement::reset() {
-	_passedTime = _initTime;
+	_passedTime = _startTime;
 	_isPaused = false;
 }
 
@@ -155,7 +146,7 @@ void TimeElement::pause() {
 	_isPaused=true;
 }
 
-void TimeElement::continue() {
+void TimeElement::unpause() {
 	_isPaused=false;
 }
 

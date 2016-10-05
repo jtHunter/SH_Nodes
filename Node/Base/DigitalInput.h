@@ -4,11 +4,13 @@
 class DigitalInput {
 public:
 	
-	DigitalInput(int id,
+	DigitalInput(String name,
+	int id,
 				 int parentId,
 				 int port);
 	
-	DigitalInput(int id,
+	DigitalInput(String name,
+	int id,
 				 int parentId,
 				 int port,
 				 bool reverse,
@@ -21,12 +23,15 @@ public:
 	unsigned long currentValueDuration();
 	bool lastValue();
 	unsigned long lastValueDuration();
+  int port();
 	
 private:
+String _name;
 	int _id;
 	int _parentId;
 	int _port;
 	bool _reverse;
+  
 	
 	bool _currentHardwareValue;
 	bool _lastHardwareValue;
@@ -38,24 +43,22 @@ private:
 	TimeElement* _currentValueTimer;
 };
 
-void DigitalInput::DigitalInput(String name,
+DigitalInput::DigitalInput(String name,
 								int id,
 								int parentId,
-								int port,
-								bool reverse,
-								unsigned long debounceTimeMillis){
+								int port){
 	DigitalInput(name,id,parentId,port, false, DEBOUNCE_DI_STD_MILLIS);
 }
 
 
-void DigitalInput::DigitalInput(String name,
+DigitalInput::DigitalInput(String name,
 								int id,
 								int parentId,
 								int port,
 								bool reverse,
-								unsigned long debounceTimeMillis){
+								unsigned long debounceTimeMillis) {
 	// store parameters
-	_name = name
+	_name = name;
 	_id = id;
 	_parentId = parentId;
 	_port = port;
@@ -78,7 +81,7 @@ void DigitalInput::setInputValueFromHardware(bool value) {
 		// input from Hardware is different to currentValue
 		if (_currentHardwareValue != _lastHardwareValue) {
 			// reset debounceTimer
-			_debounceTimer.reset();
+			_debounceTimer->reset();
 		} else {
 			// seemes to be stable signal so check if debounceTimer is finished
 			if(_debounceTimer->isFinished()) {
@@ -87,14 +90,14 @@ void DigitalInput::setInputValueFromHardware(bool value) {
 				_lastValue = _currentValue;
 				_lastValueDuration = _currentValueTimer->passedTime();
 				_currentValue = _currentHardwareValue;
-				_currentValueTimer.reset();
+				_currentValueTimer->reset();
 			} else {
 				// nothing to do here; still wait for next loop's setting hardwareValue
 			}
 		}
 	} else {
 		// input equals hardware so no debounce needed
-		_debounceTimer.pause();
+		_debounceTimer->pause();
 	}
 };
 
@@ -108,8 +111,8 @@ bool DigitalInput::currentValue(){
 };
 
 unsigned long DigitalInput::currentValueDuration(){
-	_currentValueTimer->passedTime
-};
+	_currentValueTimer->passedTime();
+}
 
 bool DigitalInput::lastValue(){
 	return _lastValue;
@@ -118,3 +121,7 @@ bool DigitalInput::lastValue(){
 unsigned long DigitalInput::lastValueDuration() {
 	return _lastValueDuration;
 };
+
+int DigitalInput::port(){
+    return _port;
+}
