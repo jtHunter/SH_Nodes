@@ -37,3 +37,6 @@ WLAN_CONF.cpp
 WLAN_CONF.h
 
 .DS_Store
+
+#xCode
+*.xcuserstate
