@@ -1,3 +1,5 @@
+#ifndef Node_Base_h
+#define Node_Base_h
 #include "WLAN_CONF.h"
 #include "Constants.h"
 #include "Arduino.h"
@@ -42,3 +44,5 @@ void Node_Base::loop_loopTime(){
 unsigned long Node_Base::lastLoopPassedMillis() {
 	return _lastLoopPassedMillis;
 }
+
+#endif

@@ -1,3 +1,6 @@
+#ifndef TimeElement_h
+#define TimeElement_h
+
 #include "Constants.h"
 
 class TimeElement {
@@ -10,7 +13,7 @@ class TimeElement {
                 bool decremental
                );
 
-
+    void restart();
     void tick(unsigned long passedTime);
 
     bool isFinished();
@@ -23,9 +26,9 @@ class TimeElement {
 
     void unpause();
 
-    void reset();
+    unsigned long sTime();
 
-  private:
+  protected:
     unsigned long _startTime;
     unsigned long _endTime;
     unsigned long _passedTime;
@@ -34,6 +37,32 @@ class TimeElement {
 
 
 };
+unsigned long TimeElement::sTime() {
+  Serial.println("TimeElement::sTime\n");
+  Serial.println(_isPaused);
+  Serial.println("---");
+  Serial.println(_decremental);
+  Serial.println("---");
+  Serial.println(_endTime);
+  Serial.println("---");
+  Serial.println(_startTime);
+  Serial.println("---");
+  return _passedTime;
+}
+void TimeElement::restart() {
+  //TODO: print all values before setting;
+  Serial.println("TimeElement::reset");
+  Serial.println("TimeElement::restart");
+  Serial.println(this->sTime());
+  Serial.print("TimeElement::reset 0x\n");
+  Serial.println(_passedTime);
+  Serial.print("TimeElement::reset 00\n");
+  _passedTime = _startTime;
+  Serial.print("TimeElement::reset 01\n");
+  _isPaused = false;
+  Serial.print("TimeElement::reset end\n");
+};
+
 TimeElement::TimeElement() {
   TimeElement(0ul, UNSIGNED_LONG_MAX, false);
 }
@@ -45,11 +74,21 @@ TimeElement::TimeElement(unsigned long endTime) {
 TimeElement::TimeElement(unsigned long startTime,
                          unsigned long endTime,
                          bool decremental) {
+
+  Serial.print("TimeElement::TimeElement\n");
+  Serial.println(startTime);
+  Serial.println(endTime);
+  Serial.println(decremental);
   _startTime = startTime;
   _passedTime = _startTime;
   _endTime = endTime;
   _isPaused = false;
   _decremental = decremental;
+  Serial.println("---");
+  Serial.println(_startTime);
+  Serial.println(_endTime);
+  Serial.println(_decremental);
+  Serial.println("---");
 }
 
 
@@ -138,13 +177,7 @@ int TimeElement::passedRatio() {
   }
 }
 
-void TimeElement::reset() {
-  Serial.print("TimeElement::reset\n");
-  _passedTime = _startTime;
-  Serial.print("TimeElement::reset 01\n");
-  _isPaused = false;
-  Serial.print("TimeElement::reset end\n");
-}
+
 
 void TimeElement::pause() {
   _isPaused = true;
@@ -154,3 +187,4 @@ void TimeElement::unpause() {
   _isPaused = false;
 }
 
+#endif

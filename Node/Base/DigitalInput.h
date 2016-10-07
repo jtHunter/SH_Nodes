@@ -1,3 +1,5 @@
+#ifndef DigitalInput_h
+#define DigitalInput_h
 #include "TimeElement.h"
 #include "Constants.h"
 
@@ -83,7 +85,7 @@ void DigitalInput::setInputValueFromHardware(bool value) {
 		if (_currentHardwareValue != _lastHardwareValue) {
 			// reset debounceTimer
       Serial.print("DigitalInput::setInputValueFromHardware 02 \n");
-			_debounceTimer->reset();
+			_debounceTimer->restart();
       Serial.print("DigitalInput::setInputValueFromHardware 03 \n");
 		} else {
 			// seemes to be stable signal so check if debounceTimer is finished
@@ -93,7 +95,7 @@ void DigitalInput::setInputValueFromHardware(bool value) {
 				_lastValue = _currentValue;
 				_lastValueDuration = _currentValueTimer->passedTime();
 				_currentValue = _currentHardwareValue;
-				_currentValueTimer->reset();
+				_currentValueTimer->restart();
         Serial.print(_name);
         Serial.print(_currentValue);
 			} else {
@@ -130,3 +132,5 @@ unsigned long DigitalInput::lastValueDuration() {
 int DigitalInput::port(){
     return _port;
 }
+
+#endif

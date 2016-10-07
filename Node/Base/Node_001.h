@@ -1,3 +1,5 @@
+#ifndef Node_h
+#define Node_h
 #include "Node_Base.h"
 #include "DigitalInput.h"
 
@@ -43,3 +45,5 @@ Serial.print("Node::loop:tick\n");
   Serial.print("Node::loop:lastLoopPassedMillis\n");
   taster01->tick(lastLoopPassedMillis);
 };
+
+#endif
