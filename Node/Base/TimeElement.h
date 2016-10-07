@@ -39,15 +39,15 @@ class TimeElement {
 };
 unsigned long TimeElement::sTime() {
   Serial.println("TimeElement::sTime\n");
-  Serial.println(_isPaused);
+  //Serial.println(_isPaused);
   Serial.println("---");
-  Serial.println(_decremental);
+  //Serial.println(_decremental);
   Serial.println("---");
-  Serial.println(_endTime);
+  //Serial.println(_endTime);
   Serial.println("---");
-  Serial.println(_startTime);
+  //Serial.println(_startTime);
   Serial.println("---");
-  return _passedTime;
+  return 0;//_passedTime;
 }
 void TimeElement::restart() {
   //TODO: print all values before setting;
@@ -55,11 +55,11 @@ void TimeElement::restart() {
   Serial.println("TimeElement::restart");
   Serial.println(this->sTime());
   Serial.print("TimeElement::reset 0x\n");
-  Serial.println(_passedTime);
+  //Serial.println(_passedTime);
   Serial.print("TimeElement::reset 00\n");
-  _passedTime = _startTime;
+  //_passedTime = _startTime;
   Serial.print("TimeElement::reset 01\n");
-  _isPaused = false;
+  //_isPaused = false;
   Serial.print("TimeElement::reset end\n");
 };
 
@@ -124,6 +124,7 @@ void TimeElement::tick(unsigned long passedTime) {
 }
 
 bool TimeElement::isFinished() {
+  return true;
   if (!_decremental) {
     if (_passedTime >= _endTime) {
       return true;
