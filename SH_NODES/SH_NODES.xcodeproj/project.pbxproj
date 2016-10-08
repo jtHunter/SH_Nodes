@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXFileReference section */
+		EC462B731DA939FE003C2311 /* DigitalOutput.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DigitalOutput.h; sourceTree = "<group>"; };
 		EC6CF97A1DA61F3D00D990B4 /* Base.ino */ = {isa = PBXFileReference; lastKnownFileType = text; path = Base.ino; sourceTree = "<group>"; };
 		EC6CF97B1DA61F3D00D990B4 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		EC6CF97D1DA61F3D00D990B4 /* DigitalInput.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DigitalInput.h; sourceTree = "<group>"; };
@@ -41,6 +42,7 @@
 				EC6CF97A1DA61F3D00D990B4 /* Base.ino */,
 				EC6CF97B1DA61F3D00D990B4 /* Constants.h */,
 				EC6CF97D1DA61F3D00D990B4 /* DigitalInput.h */,
+				EC462B731DA939FE003C2311 /* DigitalOutput.h */,
 				EC6CF97F1DA61F3D00D990B4 /* Node_001.h */,
 				EC6CF9811DA61F3D00D990B4 /* Node_Base.h */,
 				EC6CF9821DA61F3D00D990B4 /* TimeElement.h */,

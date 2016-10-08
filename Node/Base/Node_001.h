@@ -2,6 +2,7 @@
 #define Node_h
 #include "Node_Base.h"
 #include "DigitalInput.h"
+#include "DigitalOutput.h"
 
 //
 class Node: public Node_Base {
@@ -14,6 +15,8 @@ private:
 	//DigitalInput* taster01;
 	bool isFirstLoop;
  String m_name;
+
+ DigitalOutput *led_01;
 	
 };
 
@@ -26,6 +29,8 @@ Node::Node(String name) {
     isFirstLoop = true;
   init_loopTime();
   Serial.println(this->toString());
+
+  led_01 = new DigitalOutput("MyFirstLed");
 }
 
 String Node::name() {
@@ -39,6 +44,12 @@ String Node::toString() {
 
 void Node::loop() {
 	Serial.print("Node::loop\n");
+  Serial.println(led_01->toString());
+
+
+
+
+ 
  Serial.print(m_name);
 	if (isFirstLoop) {
 		isFirstLoop = false;
