@@ -26,6 +26,6 @@ void loop() {
   node->loop();
   Serial.print("NodeName from mainLoop: ");
   Serial.println(node->toString());
-  delay(1000);
+  delay(3000);
 
 }
