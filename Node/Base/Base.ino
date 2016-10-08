@@ -4,7 +4,7 @@
 
 
 bool stateLED;
-Node* node;
+Node *node;
 //WLAN_CONF conf;
 void setup() {
   Serial.begin(115200);
@@ -14,10 +14,9 @@ void setup() {
   // put your setup code here, to run once:
   //conf.foo(ssid);
   //conf.SOMETHING;
-  node = new Node();
-  node->init();
+  node = new Node("MyNode");
   stateLED = false;
-
+  
 }
 
 void loop() {
@@ -25,6 +24,8 @@ void loop() {
   stateLED = !stateLED;
    Serial.print("LOOP\n");
   node->loop();
+  Serial.print("NodeName from mainLoop: ");
+  Serial.println(node->toString());
   delay(1000);
 
 }
