@@ -12,11 +12,21 @@ class TimeElement {
   public:
     TimeElement(unsigned long endTime) {
       if (endTime == 0) {
-         m_endTime = 3000000;//UNSIGNED_LONG_MAX;
+        m_endTime = 3000000;//UNSIGNED_LONG_MAX;
       } else {
         m_endTime = endTime;
       }
+      m_passedTime = 0;
+
     };
+
+    String toString() {
+      String retu = "TimeElement | passedTime = " + m_passedTime;
+      retu += " | passedRatio : " + this->passedRatio();
+      retu += " | endTime: " + m_endTime;
+      return retu;
+    };
+
 
     void restart() {
       Serial.println("TimeElement::restart");
@@ -24,13 +34,19 @@ class TimeElement {
     };
 
     void tick(unsigned long passedTime) {
+      Serial.println("TE: tick");
       if (this->isFinished()) {
+        Serial.println("TE: isFinished ");
         return;
       } else {
+        Serial.print("TE: old passedTime");
+        Serial.println(m_passedTime);
         unsigned long newPassedTime = m_passedTime += passedTime;
         if (newPassedTime >= m_passedTime) {
           // set _passedTime
           m_passedTime = newPassedTime;
+          Serial.print("TE: new passedTime  ");
+          Serial.println(m_passedTime);
         } else {
           // looksLike overFlow
           m_passedTime = UNSIGNED_LONG_MAX;
@@ -39,7 +55,7 @@ class TimeElement {
     };
 
     bool isFinished() {
-      if (m_passedTime > m_endTime) {
+      if (m_passedTime >= m_endTime) {
         return true;
       }
       return false;
@@ -53,10 +69,14 @@ class TimeElement {
       } else {
         return (int)result;
       }
-    }
+    };
+
     unsigned long passedTime() {
       m_passedTime;
-    }
+    };
+
+
+
 };
 
 /*

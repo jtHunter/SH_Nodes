@@ -35,7 +35,7 @@ Node::Node(String name) {
 
   // HardwareInit
   led_01 = new DigitalOutput("MyFirstLed");
-  taster_01 = new DigitalInput("MyFirstTaster", 1001, 1, 10, false);
+  //taster_01 = new DigitalInput("MyFirstTaster", 1001, 1, 10, false);
 
    Serial.println(this->toString());
 }
@@ -66,8 +66,6 @@ void Node::loop() {
   }
   */
   // setHardwareValues to Inputs
-
-
     bool test = digitalRead(taster_01->port());
     Serial.print("Node::loop:digitalRead\n");
     Serial.print(test);
