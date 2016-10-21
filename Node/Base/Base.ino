@@ -19,31 +19,24 @@ void setup() {
   //node = new Node("MyNode");
   stateLED = false;
 
-  timeTest = new TimeElement(3);
+  timeTest = new TimeElement(20);
   Serial.print("SETUP END\n");
 }
 
 void loop() {
   digitalWrite(2,stateLED);
   stateLED = !stateLED;
-   Serial.print("LOOP\n");
+   //Serial.print("LOOP\n");
   //node->loop();
-  Serial.println("NodeName from mainLoop: ");
+  //Serial.println("NodeName from mainLoop: ");
   //Serial.println(node->toString());
   timeTest->tick(1);
-  if (timeTest->isFinished()) {
+  
+  
+Serial.println(timeTest->toString());
+if (timeTest->isFinished()) {
     timeTest->restart();
   }
-  Serial.println("tt: is finished");
-  Serial.println(timeTest->isFinished());
-  Serial.println("tt: restart");
-//  Serial.println(timeTest->restart());
-  Serial.println("tt: is passedTime");
-  Serial.println(timeTest->passedTime());
-  Serial.println("tt: is passedTime");
-  Serial.println(timeTest->passedRatio());
-  Serial.println("tt: is toString");
-Serial.println(timeTest->toString());
   delay(2000);
 
 }
