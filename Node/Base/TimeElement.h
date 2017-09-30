@@ -46,6 +46,9 @@ class TimeElement {
         if (newPassedTime >= m_passedTime) {
           // set _passedTime
           m_passedTime = newPassedTime;
+          if (m_passedTime > m_endTime) {
+            m_passedTime = m_endTime;
+          }
         } else {
           // looksLike overFlow
           m_passedTime = UNSIGNED_LONG_MAX;
@@ -65,6 +68,7 @@ class TimeElement {
     //#########################################
     
     int passedRatio() {
+      //TODO check for passed Time > endTimer
       unsigned long result = (1000 * m_passedTime) / m_endTime;
       if (result > 1000) {
         // someThing went wrong
